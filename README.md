@@ -3,6 +3,13 @@ d3-downloadable
 
 Make SVG downloadable.
 
+Install
+-------
+
+```sh
+bower install d3-downloadable
+```
+
 Usage
 -----
 
