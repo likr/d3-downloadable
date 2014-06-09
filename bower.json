@@ -1,0 +1,19 @@
+{
+  "name": "d3-downloadable",
+  "main": "d3-downloadable.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/likr/d3-downloadable",
+  "authors": [
+    "Yosuke ONOUE <onoue@likr-lab.com>"
+  ],
+  "description": "Make SVG downloadable",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "example"
+  ]
+}
