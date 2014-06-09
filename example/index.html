@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>d3-downloadable Example</title>
+<link rel="stylesheet" href="bootstrap.min.css"/>
+<link rel="stylesheet" href="nv.d3.min.css"/>
+</head>
+<body>
+<div class="container">
+  <h1>d3-downloadable Example</h1>
+  <p>Right click to download SVG</p>
+  <div style="width: 800px; height: 600px;">
+    <svg id="chart"></svg>
+  </div>
+  <pre id="code"></pre>
+</div>
+<script src="d3.min.js"></script>
+<script src="nv.d3.min.js"></script>
+<script src="../d3-downloadable.js"></script>
+<script>
+var data = [
+  {key: 'A', values: [
+    {x: 0, y:70},
+    {x: 1, y:76},
+    {x: 2, y:50},
+    {x: 3, y:99},
+    {x: 4, y:69},
+    {x: 5, y:51},
+    {x: 6, y:55},
+    {x: 7, y:6},
+    {x: 8, y:50},
+    {x: 9, y:71}
+  ]},
+  {key: 'B', values: [
+    {x: 0, y:83},
+    {x: 1, y:32},
+    {x: 2, y:37},
+    {x: 3, y:21},
+    {x: 4, y:20},
+    {x: 5, y:75},
+    {x: 6, y:98},
+    {x: 7, y:50},
+    {x: 8, y:77},
+    {x: 9, y:64}
+  ]},
+  {key: 'C', values: [
+    {x: 0, y:95},
+    {x: 1, y:17},
+    {x: 2, y:63},
+    {x: 3, y:33},
+    {x: 4, y:29},
+    {x: 5, y:59},
+    {x: 6, y:50},
+    {x: 7, y:82},
+    {x: 8, y:31},
+    {x: 9, y:98}
+  ]}
+];
+function draw() {
+  nv.addGraph(function() {
+      var chart = nv.models.multiBarChart()
+        .transitionDuration(350)
+        .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
+        .rotateLabels(0)      //Angle to rotate x-axis labels.
+        .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
+        .groupSpacing(0.1)    //Distance between each group of bars.
+      ;
+
+      chart.xAxis
+          .tickFormat(d3.format(',f'));
+
+      chart.yAxis
+          .tickFormat(d3.format(',.1f'));
+
+      d3.select('svg#chart')
+          .datum(data)
+          .call(chart)
+          .call(d3.downloadable({
+            filename: 'chart.svg'
+          }));
+
+      nv.utils.windowResize(chart.update);
+
+      return chart;
+  });
+}
+
+d3.select('pre#code')
+  .text(draw.toString());
+
+draw();
+</script>
+</body>
+</html>
