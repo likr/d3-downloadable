@@ -46,21 +46,21 @@
           .append('a')
           .text('Save as SVG')
           .attr({
-            download: filename,
+            download: filename + '.svg',
             href: 'data:image/svg+xml;charset=utf-8;base64,' + base64SvgText
           });
         list
           .append('a')
           .text('Save as PNG')
           .attr({
-            download: filename,
+            download: filename + '.png',
             href: canvas.toDataURL('image/png')
           });
         list
           .append('a')
           .text('Save as JPG')
           .attr({
-            download: filename,
+            download: filename + '.jpeg',
             href: canvas.toDataURL('image/jpeg')
           });
 
