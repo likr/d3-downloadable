@@ -5,6 +5,7 @@
 <title>d3-downloadable Example</title>
 <link rel="stylesheet" href="bootstrap.min.css"/>
 <link rel="stylesheet" href="nv.d3.min.css"/>
+<link rel="stylesheet" href="../d3-downloadable.css"/>
 </head>
 <body>
 <div class="container">
@@ -29,6 +30,14 @@
             }
             .nvd3 .nv-axis path.domain {
               stroke-opacity: .75;
+            }
+            .nvd3 .nv-legend .disabled circle {
+              fill-opacity: 0;
+            }
+            .nvd3 .nv-axis line {
+              fill: none;
+              stroke: #e5e5e5;
+              shape-rendering: crispEdges;
             }
           </style>
         </defs>

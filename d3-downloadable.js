@@ -30,12 +30,10 @@
 
         var menu = d3.select('body')
           .append('ul')
-          .classed('dropdown-menu', true)
+          .classed('download-menu', true)
           .style({
-            position: 'absolute',
             left: pos[0] + 'px',
             top: pos[1] + 'px',
-            display: 'inline-block'
           })
           .on('mouseleave', function() {
             menu.remove();
