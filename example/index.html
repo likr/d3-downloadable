@@ -12,7 +12,27 @@
   <p>Right click to download SVG</p>
   <div class="row">
     <div class="col-xs-8" style="height:600px;">
-      <svg id="chart"></svg>
+      <svg id="chart">
+        <defs>
+          <style>
+            .nvd3 .nv-axis .nv-axisMaxMin text {
+              font-weight: 700;
+            }
+            svg text {
+              font: 400 12px Arial;
+            }
+            .nvd3 .nv-axis path {
+              fill: none;
+              stroke: #000;
+              stroke-opacity: .75;
+              shape-rendering: crispEdges;
+            }
+            .nvd3 .nv-axis path.domain {
+              stroke-opacity: .75;
+            }
+          </style>
+        </defs>
+      </svg>
     </div>
   </div>
   <pre id="code"></pre>
@@ -79,6 +99,8 @@ function draw() {
           .datum(data)
           .call(chart)
           .call(d3.downloadable({
+            width: 750,
+            height: 600,
             filename: 'chart.svg'
           }));
 

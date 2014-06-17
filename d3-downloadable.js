@@ -26,6 +26,8 @@
           });
         var svgText = svgNode.outerHTML;
         var base64SvgText = btoa(unescape(encodeURIComponent(svgText)));
+        var canvas = toCanvas(base64SvgText);
+
         var menu = d3.select('body')
           .append('ul')
           .classed('dropdown-menu', true)
@@ -38,16 +40,44 @@
           .on('mouseleave', function() {
             menu.remove();
           });
-        menu
-          .append('li')
+        var list = menu
+          .append('li');
+        list
           .append('a')
-          .text('Save')
+          .text('Save as SVG')
           .attr({
             download: filename,
             href: 'data:image/svg+xml;charset=utf-8;base64,' + base64SvgText
           });
+        list
+          .append('a')
+          .text('Save as PNG')
+          .attr({
+            download: filename,
+            href: canvas.toDataURL('image/png')
+          });
+        list
+          .append('a')
+          .text('Save as JPG')
+          .attr({
+            download: filename,
+            href: canvas.toDataURL('image/jpeg')
+          });
+
         d3.event.preventDefault();
       });
     };
+
+    function toCanvas(svgData) {
+      var src = 'data:image/svg+xml;charset=utf-8;base64,' + svgData;
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      var image = new Image();
+      canvas.width = width;
+      canvas.height = height;
+      image.src = src;
+      context.drawImage(image, 0, 0);
+      return canvas;
+    }
   };
 })();
