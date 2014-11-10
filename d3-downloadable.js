@@ -1,5 +1,5 @@
 (function() {
-  d3.downloadable = function downloadable(arg) {
+  d3.downloadable = function (arg) {
     function viewBoxString(vb) {
       return vb.minX + ' ' + vb.minY + ' ' + vb.width + ' ' + vb.height;
     }
@@ -11,7 +11,7 @@
     var width = arg.width === undefined ? null : arg.width;
     var height = arg.height === undefined ? null : arg.height;
 
-    return function(selection) {
+    var downloadable = function(selection) {
       selection.on('contextmenu', function() {
         var pos = d3.mouse(document.body);
         var svgNode = selection.node().cloneNode(true);
@@ -26,56 +26,59 @@
           });
         var svgText = svgNode.outerHTML;
         var base64SvgText = btoa(unescape(encodeURIComponent(svgText)));
-        var canvas = toCanvas(base64SvgText);
-
-        var menu = d3.select('body')
-          .append('ul')
-          .classed('download-menu', true)
-          .style({
-            left: pos[0] + 'px',
-            top: pos[1] + 'px',
-          })
-          .on('mouseleave', function() {
-            menu.remove();
-          });
-        var list = menu
-          .append('li');
-        list
-          .append('a')
-          .text('Save as SVG')
-          .attr({
-            download: filename + '.svg',
-            href: 'data:image/svg+xml;charset=utf-8;base64,' + base64SvgText
-          });
-        list
-          .append('a')
-          .text('Save as PNG')
-          .attr({
-            download: filename + '.png',
-            href: canvas.toDataURL('image/png')
-          });
-        list
-          .append('a')
-          .text('Save as JPG')
-          .attr({
-            download: filename + '.jpeg',
-            href: canvas.toDataURL('image/jpeg')
-          });
-
+        toCanvas(base64SvgText, function(canvas) {
+          var menu = d3.select('body')
+            .append('ul')
+            .classed('download-menu', true)
+            .style({
+              left: pos[0] + 'px',
+              top: pos[1] + 'px',
+            })
+            .on('mouseleave', function() {
+              menu.remove();
+            });
+          var list = menu
+            .append('li');
+          list
+            .append('a')
+            .text('Save as SVG')
+            .attr({
+              download: filename + '.svg',
+              href: 'data:image/svg+xml;charset=utf-8;base64,' + base64SvgText
+            });
+          list
+            .append('a')
+            .text('Save as PNG')
+            .attr({
+              download: filename + '.png',
+              href: canvas.toDataURL('image/png')
+            });
+          list
+            .append('a')
+            .text('Save as JPG')
+            .attr({
+              download: filename + '.jpeg',
+              href: canvas.toDataURL('image/jpeg')
+            });
+        });
         d3.event.preventDefault();
       });
     };
 
-    function toCanvas(svgData) {
+    return downloadable;
+
+    function toCanvas(svgData, callback) {
       var src = 'data:image/svg+xml;charset=utf-8;base64,' + svgData;
       var canvas = document.createElement('canvas');
       var context = canvas.getContext('2d');
       var image = new Image();
       canvas.width = width;
       canvas.height = height;
+      image.onload = function() {
+        context.drawImage(image, 0, 0);
+        callback(canvas);
+      };
       image.src = src;
-      context.drawImage(image, 0, 0);
-      return canvas;
     }
   };
 })();
