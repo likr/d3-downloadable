@@ -65,6 +65,30 @@
       });
     };
 
+    downloadable.filename = function() {
+      if (arguments.length === 0) {
+        return filename;
+      }
+      filename = arguments[0];
+      return filename;
+    };
+
+    downloadable.width = function() {
+      if (arguments.length === 0) {
+        return width;
+      }
+      width = arguments[0];
+      return downloadable;
+    };
+
+    downloadable.height = function() {
+      if (arguments.length === 0) {
+        return height;
+      }
+      height = arguments[0];
+      return downloadable;
+    };
+
     return downloadable;
 
     function toCanvas(svgData, callback) {
