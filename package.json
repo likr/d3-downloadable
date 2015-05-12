@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "D3.js plugin to make svg downloadable",
   "main": "lib/index.js",
-  "files": {
+  "files": [
     "lib"
-  },
+  ],
   "scripts": {
     "browserify": "browserify src/index.js -t babelify -o d3-downloadable.js -s downloadable",
     "release": "rm -rf lib && babel src --out-dir lib && npm publish",
