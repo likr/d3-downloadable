@@ -4,6 +4,7 @@
   "description": "D3.js plugin to make svg downloadable",
   "main": "lib/index.js",
   "files": [
+    "d3.js",
     "lib"
   ],
   "scripts": {
