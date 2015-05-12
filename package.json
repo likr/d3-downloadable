@@ -1,6 +1,6 @@
 {
   "name": "d3-downloadable",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "D3.js plugin to make svg downloadable",
   "main": "lib/index.js",
   "files": [
