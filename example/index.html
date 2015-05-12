@@ -5,7 +5,6 @@
 <title>d3-downloadable Example</title>
 <link rel="stylesheet" href="bootstrap.min.css"/>
 <link rel="stylesheet" href="nv.d3.min.css"/>
-<link rel="stylesheet" href="../d3-downloadable.css"/>
 </head>
 <body>
 <div class="container">
@@ -90,32 +89,28 @@ var data = [
 ];
 function draw() {
   nv.addGraph(function() {
-      var chart = nv.models.multiBarChart()
-        .transitionDuration(350)
-        .reduceXTicks(true)   //If 'false', every single x-axis tick label will be rendered.
-        .rotateLabels(0)      //Angle to rotate x-axis labels.
-        .showControls(true)   //Allow user to switch between 'Grouped' and 'Stacked' mode.
-        .groupSpacing(0.1)    //Distance between each group of bars.
-      ;
+    var chart = nv.models.multiBarChart()
+      .transitionDuration(350)
+      .reduceXTicks(true)
+      .rotateLabels(0)
+      .showControls(true)
+      .groupSpacing(0.1);
+    chart.xAxis
+      .tickFormat(d3.format(',f'));
+    chart.yAxis
+      .tickFormat(d3.format(',.1f'));
 
-      chart.xAxis
-          .tickFormat(d3.format(',f'));
+    var dl = downloadable()
+      .filename('chart');
 
-      chart.yAxis
-          .tickFormat(d3.format(',.1f'));
+    d3.select('svg#chart')
+      .datum(data)
+      .call(chart)
+      .call(dl);
 
-      d3.select('svg#chart')
-          .datum(data)
-          .call(chart)
-          .call(d3.downloadable({
-            width: 750,
-            height: 600,
-            filename: 'chart'
-          }));
+    nv.utils.windowResize(chart.update);
 
-      nv.utils.windowResize(chart.update);
-
-      return chart;
+    return chart;
   });
 }
 
