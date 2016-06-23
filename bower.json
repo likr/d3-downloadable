@@ -1,7 +1,7 @@
 {
   "name": "d3-downloadable",
   "main": "d3-downloadable.js",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "homepage": "https://github.com/likr/d3-downloadable",
   "authors": [
     "Yosuke ONOUE <onoue@likr-lab.com>"
@@ -12,10 +12,9 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "d3.js",
+    "index.js",
+    "window-d3.js",
     "d3-downloadable.d.ts",
-    "src",
-    "lib",
     "example",
     "package.json"
   ],
