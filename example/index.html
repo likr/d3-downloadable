@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <title>d3-downloadable Example</title>
-<link rel="stylesheet" href="bootstrap.min.css"/>
-<link rel="stylesheet" href="nv.d3.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.css"/>
 </head>
 <body>
 <div class="container">
@@ -45,8 +45,8 @@
   </div>
   <pre id="code"></pre>
 </div>
-<script src="d3.min.js"></script>
-<script src="nv.d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.js"></script>
 <script src="d3-downloadable.js"></script>
 <script>
 var data = [
@@ -90,15 +90,17 @@ var data = [
 function draw() {
   nv.addGraph(function() {
     var chart = nv.models.multiBarChart()
-      .transitionDuration(350)
+      .duration(350)
       .reduceXTicks(true)
       .rotateLabels(0)
       .showControls(true)
-      .groupSpacing(0.1);
+      .groupSpacing(0.1)
+
     chart.xAxis
-      .tickFormat(d3.format(',f'));
+        .tickFormat(d3.format(',f'));
+
     chart.yAxis
-      .tickFormat(d3.format(',.1f'));
+        .tickFormat(d3.format(',.1f'));
 
     var dl = downloadable()
       .filename('chart');

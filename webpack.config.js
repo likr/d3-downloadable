@@ -10,7 +10,12 @@ module.exports = {
       }
     ]
   },
-  entry: './src/index.js',
+  resolve: {
+    alias: {
+      d3: './window-d3.js'
+    }
+  },
+  entry: './index.js',
   output: {
     filename: 'd3-downloadable.js',
     library: 'downloadable',

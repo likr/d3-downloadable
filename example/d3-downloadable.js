@@ -132,7 +132,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      d3.select(svgNode).attr({
 	        version: '1.1',
 	        xmlns: 'http://www.w3.org/2000/svg',
-	        'xmlns:xmlns:xlink': 'http://www.w3.org/1999/xlink',
+	        'xmlns:xlink': 'http://www.w3.org/1999/xlink',
 	        width: width,
 	        height: height
 	      });
