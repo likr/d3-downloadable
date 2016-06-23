@@ -1,6 +1,4 @@
-'use strict';
-
-import d3 from 'd3';
+const d3 = require('d3')
 
 const css = `.download-menu {
   position: absolute;
@@ -39,21 +37,21 @@ const css = `.download-menu {
   text-decoration: none;
   color: #262626;
   background-color: #f5f5f5;
-}`;
+}`
 
 const toCanvas = (svgData, width, height, callback) => {
-  const src = 'data:image/svg+xml;charset=utf-8;base64,' + svgData;
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
-  const image = new Image();
-  canvas.width = width;
-  canvas.height = height;
+  const src = 'data:image/svg+xml;charset=utf-8;base64,' + svgData
+  const canvas = document.createElement('canvas')
+  const context = canvas.getContext('2d')
+  const image = new window.Image()
+  canvas.width = width
+  canvas.height = height
   image.onload = () => {
-    context.drawImage(image, 0, 0);
-    callback(canvas);
-  };
-  image.src = src;
-};
+    context.drawImage(image, 0, 0)
+    callback(canvas)
+  }
+  image.src = src
+}
 
 const createMenu = (pos, filename, canvas, base64SvgText) => {
   const menu = d3.select('body')
@@ -79,78 +77,78 @@ const createMenu = (pos, filename, canvas, base64SvgText) => {
       'background-clip': 'padding-box'
     })
     .on('mouseleave', () => {
-      menu.remove();
-    });
+      menu.remove()
+    })
   const list = menu
-    .append('li');
+    .append('li')
   list
     .append('a')
     .text('Save as SVG')
     .attr({
       download: filename + '.svg',
       href: 'data:image/svg+xml;charset=utf-8;base64,' + base64SvgText
-    });
+    })
   list
     .append('a')
     .text('Save as PNG')
     .attr({
       download: filename + '.png',
       href: canvas.toDataURL('image/png')
-    });
+    })
   list
     .append('a')
     .text('Save as JPG')
     .attr({
       download: filename + '.jpeg',
       href: canvas.toDataURL('image/jpeg')
-    });
-};
+    })
+}
 
 const downloadable = () => {
-  let filename = 'image';
+  let filename = 'image'
 
   const downloadableImpl = (selection) => {
     if (d3.select('#downloadable-css').empty()) {
       d3.select('head')
         .append('style')
         .attr('id', 'downloadable-css')
-        .text(css);
+        .text(css)
     }
 
     selection.on('contextmenu', () => {
-      const pos = d3.mouse(document.body);
-      const origSvgNode = selection.node();
-      const {width, height} = origSvgNode.getBoundingClientRect();
-      const svgNode = origSvgNode.cloneNode(true);
+      const pos = d3.mouse(document.body)
+      const origSvgNode = selection.node()
+      const {width, height} = origSvgNode.getBoundingClientRect()
+      const svgNode = origSvgNode.cloneNode(true)
       d3.select(svgNode)
         .attr({
-          version: "1.1",
-          xmlns: "http://www.w3.org/2000/svg",
-          "xmlns:xmlns:xlink": "http://www.w3.org/1999/xlink",
+          version: '1.1',
+          xmlns: 'http://www.w3.org/2000/svg',
+          'xmlns:xmlns:xlink': 'http://www.w3.org/1999/xlink',
           width: width,
           height: height
-        });
-      const svgText = svgNode.outerHTML;
-      const base64SvgText = btoa(
+        })
+      const svgText = svgNode.outerHTML
+      const base64SvgText = window.btoa(
         encodeURIComponent(svgText)
           .replace(/%([0-9A-F]{2})/g,
-                   (match, p1) => String.fromCharCode('0x' + p1)));
+                   (match, p1) => String.fromCharCode('0x' + p1)))
       toCanvas(base64SvgText, width, height, (canvas) => {
-        createMenu(pos, filename, canvas, base64SvgText);
-      });
-      d3.event.preventDefault();
-    });
-  };
+        createMenu(pos, filename, canvas, base64SvgText)
+      })
+      d3.event.preventDefault()
+    })
+  }
 
   downloadableImpl.filename = function () {
     if (arguments.length === 0) {
-      return filename;
+      return filename
     }
-    filename = arguments[0];
-    return downloadableImpl;
-  };
+    filename = arguments[0]
+    return downloadableImpl
+  }
 
-  return downloadableImpl;
-};
+  return downloadableImpl
+}
 
-export default downloadable;
+module.exports = downloadable

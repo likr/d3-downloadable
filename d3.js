@@ -1,3 +1,1 @@
-'use strict';
-
-module.exports = window.d3;
+module.exports = window.d3
