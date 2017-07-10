@@ -1,5 +1,5 @@
 const d3 = require('d3')
-const {SVGConverter} = require('svg-converter')
+const {SVGConverter} = require('svg-dataurl')
 
 const css = `.download-menu {
   position: absolute;
