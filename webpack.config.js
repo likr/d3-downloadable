@@ -7,7 +7,9 @@ const options = {
       {
         test: /\.js$/,
         include: [
-          path.resolve(__dirname, 'example/src')
+          path.resolve(__dirname, 'node_modules/svg-dataurl'),
+          path.resolve(__dirname, 'example/src'),
+          path.resolve(__dirname, 'index.js')
         ],
         use: [
           {
