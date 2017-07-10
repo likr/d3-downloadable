@@ -1,24 +1,56 @@
-module.exports = {
+const path = require('path')
+const webpack = require('webpack')
+
+const options = {
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015']
-        }
+        test: /\.js$/,
+        include: [
+          path.resolve(__dirname, 'example/src')
+        ],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['env']
+            }
+          }
+        ]
       }
     ]
   },
-  resolve: {
-    alias: {
-      d3: './window-d3.js'
-    }
+  entry: {
+    bundle: './example/src/index'
   },
-  entry: './index.js',
   output: {
-    filename: 'd3-downloadable.js',
-    library: 'downloadable',
-    libraryTarget: 'umd'
+    path: path.resolve(__dirname, 'example'),
+    filename: '[name].js'
+  },
+  externals: {
+  },
+  plugins: [
+  ],
+  resolve: {
+    extensions: ['.js']
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'example'),
+    historyApiFallback: true,
+    port: 8080
   }
 }
+
+if (process.env.NODE_ENV === 'production') {
+  options.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: {
+      warnings: false
+    }
+  }))
+} else {
+  Object.assign(options, {
+    devtool: 'inline-source-map'
+  })
+}
+
+module.exports = options

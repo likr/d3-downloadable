@@ -1,4 +1,5 @@
 const d3 = require('d3')
+const {SVGConverter} = require('svg-converter')
 
 const css = `.download-menu {
   position: absolute;
@@ -39,43 +40,12 @@ const css = `.download-menu {
   background-color: #f5f5f5;
 }`
 
-const toCanvas = (svgData, width, height, callback) => {
-  const src = 'data:image/svg+xml;charset=utf-8;base64,' + svgData
-  const canvas = document.createElement('canvas')
-  const context = canvas.getContext('2d')
-  const image = new window.Image()
-  canvas.width = width
-  canvas.height = height
-  image.onload = () => {
-    context.drawImage(image, 0, 0)
-    callback(canvas)
-  }
-  image.src = src
-}
-
-const createMenu = (pos, filename, canvas, base64SvgText) => {
+const createMenu = (pos, filename, converter) => {
   const menu = d3.select('body')
     .append('ul')
     .classed('download-menu', true)
-    .style({
-      left: `${pos[0]}px`,
-      top: `${pos[1]}px`,
-      position: 'absolute',
-      'z-index': '1000',
-      display: 'inline-block',
-      float: 'left',
-      'min-width': '160px',
-      padding: '5px 0',
-      margin: '2px 0 0',
-      'list-style': 'none',
-      'font-size': '14px',
-      'background-color': '#fff',
-      border: '1px solid #ccc',
-      'border-radius': '4px',
-      '-webkit-box-shadow': '0 6px 12px rgba(0,0,0,.175)',
-      'box-shadow': '0 6px 12px rgba(0,0,0,.175)',
-      'background-clip': 'padding-box'
-    })
+    .style('left', `${pos[0]}px`)
+    .style('top', `${pos[1]}px`)
     .on('mouseleave', () => {
       menu.remove()
     })
@@ -84,24 +54,18 @@ const createMenu = (pos, filename, canvas, base64SvgText) => {
   list
     .append('a')
     .text('Save as SVG')
-    .attr({
-      download: filename + '.svg',
-      href: 'data:image/svg+xml;charset=utf-8;base64,' + base64SvgText
-    })
+    .attr('download', filename + '.svg')
+    .attr('href', converter.svgDataURL())
   list
     .append('a')
     .text('Save as PNG')
-    .attr({
-      download: filename + '.png',
-      href: canvas.toDataURL('image/png')
-    })
+    .attr('download', filename + '.png')
+    .attr('href', converter.pngDataURL())
   list
     .append('a')
     .text('Save as JPG')
-    .attr({
-      download: filename + '.jpeg',
-      href: canvas.toDataURL('image/jpeg')
-    })
+    .attr('download', filename + '.jpeg')
+    .attr('href', converter.jpegDataURL())
 }
 
 const downloadable = () => {
@@ -117,24 +81,8 @@ const downloadable = () => {
 
     selection.on('contextmenu', () => {
       const pos = d3.mouse(document.body)
-      const origSvgNode = selection.node()
-      const {width, height} = origSvgNode.getBoundingClientRect()
-      const svgNode = origSvgNode.cloneNode(true)
-      d3.select(svgNode)
-        .attr({
-          version: '1.1',
-          xmlns: 'http://www.w3.org/2000/svg',
-          'xmlns:xlink': 'http://www.w3.org/1999/xlink',
-          width: width,
-          height: height
-        })
-      const svgText = svgNode.outerHTML
-      const base64SvgText = window.btoa(
-        encodeURIComponent(svgText)
-          .replace(/%([0-9A-F]{2})/g,
-                   (match, p1) => String.fromCharCode('0x' + p1)))
-      toCanvas(base64SvgText, width, height, (canvas) => {
-        createMenu(pos, filename, canvas, base64SvgText)
+      SVGConverter.loadFromElement(selection.node()).then((converter) => {
+        createMenu(pos, filename, converter)
       })
       d3.event.preventDefault()
     })
@@ -151,4 +99,4 @@ const downloadable = () => {
   return downloadableImpl
 }
 
-module.exports = downloadable
+exports.downloadable = downloadable

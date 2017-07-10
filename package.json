@@ -1,13 +1,14 @@
 {
   "name": "d3-downloadable",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "D3.js plugin to make svg downloadable",
   "main": "index.js",
   "files": [
     "index.js"
   ],
   "scripts": {
-    "build": "webpack",
+    "example": "webpack-dev-server",
+    "deploy": "NODE_ENV=production webpack && gh-pages -d example",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,12 +22,17 @@
   },
   "homepage": "https://github.com/likr/d3-downloadable",
   "peerDependencies": {
-    "d3": "^3.5.17"
+    "d3": "^4.9.1"
   },
   "devDependencies": {
-    "babel-core": "^6.10.4",
-    "babel-loader": "^6.2.4",
-    "babel-preset-es2015": "^6.9.0",
-    "webpack": "^1.13.1"
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "d3": "^4.9.1",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.5.1"
+  },
+  "dependencies": {
+    "svg-converter": "file:../svg-converter"
   }
 }
