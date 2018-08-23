@@ -5,7 +5,7 @@ const drawGraph = (graph) => {
   return (svg) => {
     const width = +svg.attr('width')
     const height = +svg.attr('height')
-    const color = d3.scaleOrdinal(d3.schemeCategory20)
+    const color = d3.scaleOrdinal(d3.schemeCategory10)
 
     const simulation = d3.forceSimulation()
       .force('link', d3.forceLink().id((d) => d.id))
@@ -73,11 +73,7 @@ const drawGraph = (graph) => {
   }
 }
 
-d3.json('./miserables.json', (error, graph) => {
-  if (error) {
-    throw error
-  }
-
+d3.json('./miserables.json').then((graph) => {
   d3.select('svg')
     .call(drawGraph(graph))
     .call(downloadable().filename('graph'))

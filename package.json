@@ -7,31 +7,32 @@
     "index.js"
   ],
   "scripts": {
-    "example": "webpack-dev-server",
-    "deploy": "NODE_ENV=production webpack && gh-pages -d example",
+    "example": "webpack-dev-server --mode=development",
+    "deploy": "webpack --mode=production && gh-pages -d example",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "https://likr@github.com/likr/d3-downloadable.git"
   },
-  "author": "Yosuke ONOUE <onoue@likr-lab.com>",
+  "author": "Yosuke Onoue <onoue@likr-lab.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/likr/d3-downloadable/issues"
   },
   "homepage": "https://github.com/likr/d3-downloadable",
   "peerDependencies": {
-    "d3": "^4.9.1"
+    "d3": "*"
   },
   "devDependencies": {
-    "babel-core": "^6.25.0",
-    "babel-loader": "^7.1.1",
-    "babel-preset-env": "^1.6.0",
-    "d3": "^4.9.1",
-    "gh-pages": "^1.0.0",
-    "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.5.1"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "d3": "^5.6.0",
+    "gh-pages": "^1.2.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
     "svg-dataurl": "^1.0.0"
