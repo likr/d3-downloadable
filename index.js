@@ -80,11 +80,18 @@ const downloadable = () => {
     }
 
     selection.on('contextmenu', () => {
-      const pos = d3.mouse(document.body)
-      SVGConverter.loadFromElement(selection.node()).then((converter) => {
-        createMenu(pos, filename, converter)
-      })
-      d3.event.preventDefault()
+      const f = () => {
+        const pos = d3.mouse(document.body)
+        SVGConverter.loadFromElement(selection.node()).then((converter) => {
+          createMenu(pos, filename, converter)
+        })
+        d3.event.preventDefault()
+      }
+      if (d3.event == null) {
+        d3.customEvent(window.event, f) // Hack for React
+      } else {
+        f()
+      }
     })
   }
 
